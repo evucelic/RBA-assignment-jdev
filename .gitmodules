@@ -1,0 +1,4 @@
+[submodule "rba-chatbot-assignment"]
+	path = rba-chatbot-assignment
+	url = https://github.com/ivandoslic/rba-chatbot-assignment.git
+	branch = main
