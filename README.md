@@ -15,3 +15,5 @@ test za provjeru confidence odgovora na prompt koji sadrži riječi koje se ne n
 test za provjeru singularnih ključnih riječi jer ljudi ne upisuju cesto pune recenice.
 
 jos neki test s recenicama koje nisu u train setu, izvaditi podatke i napraviti neki graf je li dobro klasificirano il ne, confidence itd
+
+lagano poboljšanje -> umjesto word u botu koristiti 'char' opciju za analyzer koji gleda n-gramove odredene duljine, npr. djelove rijeci duljine od 3 do 6 umjesto cijelih rijeci kako bi bolje spojio korisnikovu poruku s namjerom, takoder dobro rjesenje za dijakriticke znakove
