@@ -56,13 +56,13 @@ def write_api_key(driver, api_key):
 
 # Test to see if the server is up by checking the health endpoint
 def test_health(driver):
-    driver.get("http://localhost:8000/health")
+    driver.get(f"{BASE_URL}/health")
     assert '{"status":"ok"}' in driver.page_source
 
 
 # Test exact same training sentences, I won't be collecting failures here
 def test_train_sentences(driver):
-    driver.get("http://localhost:8000")
+    driver.get(f"{BASE_URL}")
 
     write_api_key(driver, API_KEY)
 
@@ -80,7 +80,7 @@ def test_train_sentences(driver):
 
 # Test keywords obvious for each intent, collect failures and print them at the end
 def test_keywords(driver):
-    driver.get("http://localhost:8000")
+    driver.get(f"{BASE_URL}")
 
     write_api_key(driver, API_KEY)
 
@@ -110,7 +110,7 @@ def test_keywords(driver):
 
 # Test keywords without diacritics, since all training sentences have diacritics, expected failures
 def test_without_diacritics(driver):
-    driver.get("http://localhost:8000")
+    driver.get(f"{BASE_URL}/")
 
     write_api_key(driver, API_KEY)
 
@@ -141,7 +141,7 @@ def test_without_diacritics(driver):
 
 # Test sentences outside of training set, expected failures
 def test_out_of_sample(driver):
-    driver.get("http://localhost:8000")
+    driver.get(f"{BASE_URL}")
 
     write_api_key(driver, API_KEY)
 
