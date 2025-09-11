@@ -1,15 +1,12 @@
-from testdata import SENTENCES, KEYWORDS, WITHOUT_DIACRITICS, OUT_OF_SAMPLE
+from data.testdata import SENTENCES, KEYWORDS, WITHOUT_DIACRITICS, OUT_OF_SAMPLE
 
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 
 from dotenv import load_dotenv
 
 import os
 import pytest
-import time
 
 
 load_dotenv()

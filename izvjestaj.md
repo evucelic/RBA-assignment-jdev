@@ -3,7 +3,7 @@
 
 ## 1. Metodologija Testiranja (Selenium)
 
-E2E testovi su automatizirani korištenjem **Selenium WebDrivera** kako bi se simulirala stvarna interakcija korisnika s grafičkim sučeljem (GUI) aplikacije.
+E2E testovi su automatizirani korištenjem **Selenium WebDrivera** kako bi se simulirala stvarna interakcija korisnika s grafičkim sučeljem (GUI) aplikacije. Jedan test je pisan preko REST API metode kako bi se dobila veća preciznost vjerojatnosti točnosti.
 
 **Proces testiranja:**
 1.  **Autorizacija**: Test automatski unosi API ključ u odgovarajuće polje.
@@ -64,6 +64,10 @@ Svi testni podaci i logika nalaze se u `tests/e2e/`. Iako je ova funkcionalnost 
     Sentence: 'Kakve su prednosti ako se učlanim?' | Expected: 'clanstvo'      | Got: 'danas_izlozbe'
     ```
 
+### Test 6 (REST API): Testiranje confidence odgovora Trening Skupa
+* **Opis**: Ovaj test provjerava je li confidence namjere veći od baseline pretpostavke (1/N)
+* **Rezultat**: **PROŠAO**, dodatna vizualizacija histogramom niže
+
 ---
 
 ## 3. Analiza Rada Bota i Preporuke za Poboljšanje
@@ -106,3 +110,5 @@ Rješenje koje sam testirao je promjena `analyzer` parametra u `char`. Ovim pris
 ### Dodatno Opažanje: Niska Pouzdanost (`Confidence`)
 
 Uočeno je da model čak i za točne predikcije na trening primjerima vraća nisku razinu pouzdanosti (oko 30% u NAJBOLJEM slučaju). Mogući uzroci su sklearnova implementacija logističke regresije s opcijom 'multinomial' koja raspodjeljue vjerojatnosti na sve namjere, ili preklapanje riječi pošto puno rečenica sadrže iste riječi.
+
+![](tests/e2e/data/confidences_trained_histogram.png)

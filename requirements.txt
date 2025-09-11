@@ -1,3 +1,5 @@
 selenium=4.35.0
 python-dotenv=1.1.1
 pytest=7.4.3
+pandas=2.2.3
+matplotlib=3.8.0
