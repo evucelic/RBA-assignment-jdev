@@ -1,19 +1,83 @@
-inicijalna razmišljanja:
+## End-to-End (E2E) Testovi za Chatbot
 
-testovi:
-jedan za health je dovoljan, iako je kodiran tako da uvijek vraća ok dok god server radi
-prijedlog : moze se dodati health check u odredenim intervalima u dockerfile za robusniji tracking(starting, healthy, unhealthy)
+1.  **Lokalno okruženje**: Testiranje bota na lokalno pokrenutom serveru. Ovo omogućuje testiranje na proširenom skupu podataka za treniranje.
+2.  **Produkcijsko okruženje**: Testiranje bota koji je postavljen na Renderu. Ova verzija je trenirana na manjem skupu podataka.
 
-test koji ce slati promptove s identicnim recenicama kao u train setu, ocekuje se tocna klasifikacija
+### Predradnje
 
-test koji ce slati promptove s recenicama bez dijaktritickih znakova, asserta se tocna klasifikacija (iako mislim da će failati jer se u bot.py provjeravaju cijele rijeci a ne podnizovi, nije case insensitive, mozda na ovom prosirenom train setu nece failati iako sumnjam)
+1.  **Kloniranje repozitorija**:
+      ```
+      git clone https://github.com/evucelic/RBA-assignment-jdev.git
+      cd RBA-assignment-jdev
+      git submodule update --init --recursive
+      ```
 
-test za provjeru confidence odgovora koji su identični onima iz train seta, iz rucnog testiranja nije preveliki confidence, ne znam točno koji interval ciljam za točnu klasifikaciju, idealno blizu 1 ali sumnjam zbog malog dataseta i ne uzimanje u obzir case insensitive opcija.
+2.  **Postavljanje virtualnog okruženja i instalacija paketa**:
+    *   Preporučuje se korištenje virtualnog okruženja kako bi se izbjegli konflikti s drugim Python paketima.
+      ```
+      # Stvaranje virtualnog okruženja
+      python -m venv .venv
 
-test za provjeru confidence odgovora na prompt koji sadrži riječi koje se ne nalaze u niti jednom od train rečenica. očekujem confidence oko 1/10 
+      # Aktivacija okruženja (Linux/macOS)
+      source .venv/bin/activate
 
-test za provjeru singularnih ključnih riječi jer ljudi ne upisuju cesto pune recenice.
+      # Aktivacija okruženja (Windows)
+      # .\.venv\Scripts\activate
 
-jos neki test s recenicama koje nisu u train setu, izvaditi podatke i napraviti neki graf je li dobro klasificirano il ne, confidence itd
+      # Instalacija potrebnih paketa
+      pip install -r requirements.txt
+      ```
 
-lagano poboljšanje -> umjesto word u botu koristiti 'char' opciju za analyzer koji gleda n-gramove odredene duljine, npr. djelove rijeci duljine od 3 do 6 umjesto cijelih rijeci kako bi bolje spojio korisnikovu poruku s namjerom, takoder dobro rjesenje za dijakriticke znakove
+3.  **Konfiguracija okruženja (.env datoteka)**:
+    *   U korijenu projekta stvorite datoteku naziva `.env`.
+    *   Dodajte sljedeće varijable u datoteku:
+      ```
+      # API ključ potreban za rad bota
+      API_KEY_RBA="vas_api_kljuc"
+
+      # URL na kojem se bot nalazi
+      # Za lokalno testiranje:
+      BASE_URL="http://localhost:8000"
+      # Za testiranje na Renderu:
+      # BASE_URL="https://rba-chatbot-assignment.onrender.com/"
+      ```
+
+---
+
+### Pokretanje Testova
+
+#### Opcija 1: Testiranje u Lokalnom Okruženju
+
+1.  **Ažuriranje skupa za treniranje (opcionalno, ali preporučeno)**:
+    *   Kako bi lokalni bot prepoznavao sve testne primjere, prenesite podatke iz `tests/e2e/testdata.py` (varijabla `SENTENCES`) u `bot.py` datoteku unutar chatbot submodulea.
+
+2.  **Pokretanje lokalnog servera**:
+    *   Slijedite upute iz `README.md` datoteke unutar `rba-chatbot-assignment` repozitorija (submodulea) kako biste pokrenuli server. Uvjerite se da je server aktivan na `http://localhost:8000`.
+
+3.  **Izvršavanje testova**:
+    *   Pozicionirajte se u direktorij s testovima:
+      ```
+      cd tests/e2e
+      ```
+    *   Pokrenite Pytest:
+      ```
+      pytest
+      ```
+
+#### Opcija 2: Testiranje na Produkcijskom Okruženju (Render)
+
+**Napomena**: Bot na Renderu je treniran na manjem skupu podataka, pa neki testovi (posebno oni s proširenim primjerima) mogu (i hoće) pasti.
+
+1.  **Konfiguracija `.env` datoteke**:
+    *   Provjerite je li u vašoj `.env` datoteci `BASE_URL` postavljen na `https://rba-chatbot-assignment.onrender.com/`.
+
+2.  **Izvršavanje testova**:
+    *   Pozicionirajte se u direktorij s testovima:
+      ```
+      cd tests/e2e
+      ```
+    *   Pokrenite Pytest:
+      ```
+      pytest
+      ```
+```
